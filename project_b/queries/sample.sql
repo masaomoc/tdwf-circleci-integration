@@ -1,0 +1,3 @@
+SELECT COUNT(*) 
+FROM tables
+WHERE TD_INTERVAL(time, '-60m')

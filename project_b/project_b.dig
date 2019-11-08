@@ -1,0 +1,6 @@
+_export:
+  td:
+    database: sample_db
+
++process:
+  td>: queries/sample.sql
