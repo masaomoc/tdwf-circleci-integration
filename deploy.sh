@@ -11,7 +11,7 @@ if [ "${CIRCLE_BRANCH}" == "master" ]; then
     projects=$(find . -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*')
 else
     # otherwise deploy only specific branches which has changed by the commit
-    projects=$(git diff --name-only master...HEAD | grep '^project' | sed -e 's;\(project.[^/]*\)/.*;\1;' | sort | uniq)
+    projects=$(git diff --name-only master...HEAD | grep '^workflows' | sed -e 's;\(workflows/[^/]*\)/.*;\1;' | sort | uniq)
 fi
 
 for project in ${projects}; do
@@ -22,5 +22,4 @@ for project in ${projects}; do
     -X client.http.headers.authorization="TD1 $TD_APIKEY" \
     -r $(date -u +"%Y-%m-%dT%H:%M:%SZ")-$(git rev-parse HEAD)
 
-  cd ${orig}
 done
