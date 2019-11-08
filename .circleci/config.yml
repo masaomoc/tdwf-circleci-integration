@@ -1,0 +1,34 @@
+version: 2.1
+executors:
+  digdag_executor:
+    docker:
+      - image: circleci/openjdk:8
+
+jobs:
+  deploy-prd:
+    executor: digdag_executor
+    steps:
+      - checkout
+      - run:
+          name: Setup
+          command: |
+              mkdir -p ~/bin/
+              curl -o ~/bin/digdag -L "https://dl.digdag.io/digdag-latest"
+              chmod +x ~/bin/digdag
+              echo 'export PATH="$HOME/bin:$PATH"' >> $BASH_ENV
+      - run:
+          name: Check config
+          command: digdag check
+      - deploy:
+          name: Push project
+          command: ./deploy.sh
+
+workflows:
+  version: 2
+  build-n-deploy:
+    jobs:
+      - deploy-prd:
+          filters:
+            branches:
+              only:
+                - master
