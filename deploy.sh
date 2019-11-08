@@ -23,4 +23,5 @@ for project in ${projects}; do
     -X client.http.headers.authorization="TD1 $TD_APIKEY" \
     -r $(date -u +"%Y-%m-%dT%H:%M:%SZ")-$(git rev-parse HEAD)
 
+  cd $orig
 done
