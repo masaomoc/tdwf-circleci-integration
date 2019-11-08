@@ -12,6 +12,7 @@ if [ "${CIRCLE_BRANCH}" == "master" ]; then
     projects=$(find . -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*')
 else
     # otherwise deploy only specific branches which has changed by the commit
+    git diff --name-only master...HEAD
     projects=$(git diff --name-only master...HEAD | grep '^workflows' | sed -e 's;\(workflows/[^/]*\)/.*;\1;' | sort | uniq)
 fi
 
