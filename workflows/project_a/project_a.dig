@@ -4,3 +4,6 @@ _export:
 
 +process:
   td>: queries/sample.sql
+
++process2:
+  echo>: queries/sample.sql
