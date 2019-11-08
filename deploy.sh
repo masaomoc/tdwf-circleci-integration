@@ -9,7 +9,7 @@ orig=$(pwd)
 # as your actual project use.
 if [ "${CIRCLE_BRANCH}" == "master" ]; then
     # deploy all files if branch == 'master'
-    projects=$(find . -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*')
+    projects=$(find ./workflows -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*')
 else
     # otherwise deploy only specific branches which has changed by the commit
     projects=$(git diff --name-only origin/master...HEAD | grep '^workflows' | sed -e 's;\(workflows/[^/]*\)/.*;\1;' | sort | uniq)
