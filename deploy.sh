@@ -6,7 +6,15 @@ cd $(dirname $0)
 orig=$(pwd)
 # Loop for all workflow projects. You can change filter condition 
 # as your actual project use.
-for project in $(find . -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*'); do
+if [ "${CIRCLE_BRANCH}" == "master" ]; then
+    # deploy all files if branch == 'master'
+    projects=$(find . -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*')
+else
+    # otherwise deploy only specific branches which has changed by the commit
+    projects=$(git diff --name-only master...HEAD | grep '^project' | sed -e 's;\(project.[^/]*\)/.*;\1;' | sort | uniq)
+fi
+
+for project in ${projects}; do
   cd ${project}
 
   digdag push $(basename $(pwd)) \
